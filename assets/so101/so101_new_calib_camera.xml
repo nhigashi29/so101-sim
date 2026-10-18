@@ -119,6 +119,7 @@
                   <!-- Link wrist_camera -->
                   <body name="wrist_camera" pos="-0.04941 -0.03813 0.0175" quat="0.37978693649389456 -0.5964584309361936 -0.37978833153177 -0.596456240026065">
                     <inertial pos="0 0 0" mass="0.015" diaginertia="1e-5 1e-5 1e-5"/>
+                    <include file="wrist_camera.xml"/>
                     <!-- Part wrist_camera_so101_v1 -->
                     <geom type="mesh" class="visual" mesh="wrist_camera_so101_v1" material="wrist_camera_so101_v1_material"/>
                     <geom type="mesh" class="collision" mesh="wrist_camera_so101_v1" material="wrist_camera_so101_v1_material"/>

@@ -7,7 +7,15 @@ from pathlib import Path
 
 
 def main() -> None:
-    script = Path(__file__).resolve().with_name("main.py")
+    forwarded = sys.argv[1:]
+    script_name = "main.py"
+    if "--pick-place" in forwarded:
+        forwarded.remove("--pick-place")
+        script_name = "task.py"
+    elif "--act" in forwarded:
+        forwarded.remove("--act")
+        script_name = "act.py"
+    script = Path(__file__).resolve().with_name(script_name)
     arguments = [sys.executable]
     environment = os.environ.copy()
     if sys.platform == "darwin":
@@ -20,7 +28,7 @@ def main() -> None:
         )
         environment["DYLD_FALLBACK_LIBRARY_PATH"] = f"{library_dir}:{existing}"
         arguments.append(str(Path(sys.executable).parent / "mjpython"))
-    arguments.extend([str(script), *sys.argv[1:]])
+    arguments.extend([str(script), *forwarded])
     os.execve(sys.executable, arguments, environment)
 
 

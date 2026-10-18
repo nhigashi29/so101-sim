@@ -5,25 +5,28 @@ description = "SO-101 MuJoCo simulation for privileged RL and visual policy dist
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
+    "gymnasium>=1.2,<2",
     "mujoco>=3.16.0",
     "numpy>=2.5.4",
     "pillow>=13.0.0",
+    "stable-baselines3>=2.7,<3",
 ]
 
 [tool.ruff]
 target-version = "py312"
 line-length = 88
-extend-exclude = ["assets", "third_party", "outputs"]
+extend-exclude = ["assets", "third_party", "outputs", ".venv-act"]
 force-exclude = true
 
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F", "I", "B", "UP"]
 
 [tool.pyright]
+extraPaths = ["src"]
 venvPath = "."
 venv = ".venv"
 pythonVersion = "3.12"
-exclude = [".venv", "third_party", "outputs"]
+exclude = [".venv", ".venv-act", "third_party", "outputs"]
 
 [dependency-groups]
 dev = [

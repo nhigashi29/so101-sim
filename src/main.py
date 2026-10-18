@@ -8,7 +8,7 @@ import mujoco
 import numpy as np
 from PIL import Image
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 SCENE = ROOT / "assets/so101/scene.xml"
 
 
@@ -39,6 +39,12 @@ def main() -> None:
     parser.add_argument("--demo", action="store_true", help="旋回と開閉の動作デモ")
     parser.add_argument("--seconds", type=float, help="実行するシミュレーション秒数")
     parser.add_argument("--snapshot", type=Path, help="実行後のRGB画像の保存先")
+    parser.add_argument(
+        "--camera",
+        choices=["free", "wrist"],
+        default="free",
+        help="表示・画像保存の視点（free: 全体、wrist: 手首カメラ）",
+    )
     args = parser.parse_args()
     if args.seconds is not None and (
         not np.isfinite(args.seconds) or args.seconds <= 0
@@ -70,6 +76,9 @@ def main() -> None:
                 viewer.cam.distance = camera.distance
                 viewer.cam.azimuth = camera.azimuth
                 viewer.cam.elevation = camera.elevation
+                if args.camera == "wrist":
+                    viewer.cam.type = mujoco.mjtCamera.mjCAMERA_FIXED
+                    viewer.cam.fixedcamid = model.camera("wrist").id
             while viewer.is_running() and data.time < duration:
                 started = time.monotonic()
                 with viewer.lock():
@@ -80,7 +89,9 @@ def main() -> None:
     if args.snapshot:
         args.snapshot.parent.mkdir(parents=True, exist_ok=True)
         with mujoco.Renderer(model, height=480, width=640) as renderer:
-            renderer.update_scene(data, camera=make_camera())
+            renderer.update_scene(
+                data, camera="wrist" if args.camera == "wrist" else make_camera()
+            )
             Image.fromarray(renderer.render()).save(args.snapshot)
         print(f"RGB image saved: {args.snapshot.resolve()}")
     print(f"Simulated {data.time:.3f}s; qpos(rad)={np.round(data.qpos, 3).tolist()}")

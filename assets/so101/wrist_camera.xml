@@ -1,0 +1,10 @@
+<mujoco>
+  <!-- Pose relative to the wrist_camera body; position is in meters. -->
+  <!-- Camera looks along its own -Z; these axes give body +Z forward, +X up. -->
+  <!-- Vertical field of view is in degrees, provisionally 60 (not calibrated). -->
+  <camera name="wrist"
+          mode="fixed"
+          pos="0 0 0.0264"
+          xyaxes="0 1 0 1 0 0"
+          fovy="60"/>
+</mujoco>

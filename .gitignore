@@ -1,4 +1,5 @@
 # Python-generated files
+.DS_Store
 __pycache__/
 *.py[oc]
 build/
@@ -8,6 +9,7 @@ wheels/
 
 # Virtual environments
 .venv
+.venv-act/
 third_party/
 outputs/
 .ruff_cache/
