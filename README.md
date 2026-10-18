@@ -46,6 +46,18 @@ uv run python main.py --headless --demo --seconds 5 --snapshot outputs/so101.png
 取得したコミットは`assets/so101/SOURCE.md`を参照。
 関節・グリッパ指令はrad。LeRobotのグリッパ0–100表現との変換は未実装。
 
+## 型チェック
+
+```bash
+uv sync --locked
+uv run pyright
+```
+
+開発依存の非公式`mujoco-stubs`でMuJoCo 3.16系の型情報を補完する。
+Pyrightは`pyproject.toml`の設定で`.venv`を参照する。
+エディタに古い診断が残る場合は、PyrightのLanguage Serverを再起動する。
+MuJoCoを更新するときは、stubも対応するバージョンに更新する。
+
 ## 次に進む段階
 
 1. キューブと目標位置を配置し、Gymnasiumの`reset` / `step`を実装する。
