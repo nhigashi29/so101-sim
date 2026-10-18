@@ -1,13 +1,12 @@
 """SO-101を表示し、関節状態とRGB画像を確認する最小サンプル。"""
 
 import argparse
-from pathlib import Path
 import time
+from pathlib import Path
 
 import mujoco
 import numpy as np
 from PIL import Image
-
 
 ROOT = Path(__file__).resolve().parent
 SCENE = ROOT / "assets/so101/scene.xml"
@@ -41,7 +40,9 @@ def main() -> None:
     parser.add_argument("--seconds", type=float, help="実行するシミュレーション秒数")
     parser.add_argument("--snapshot", type=Path, help="実行後のRGB画像の保存先")
     args = parser.parse_args()
-    if args.seconds is not None and (not np.isfinite(args.seconds) or args.seconds <= 0):
+    if args.seconds is not None and (
+        not np.isfinite(args.seconds) or args.seconds <= 0
+    ):
         parser.error("--seconds は正の有限値にしてください。")
 
     model = mujoco.MjModel.from_xml_path(str(SCENE))
@@ -51,7 +52,11 @@ def main() -> None:
     mujoco.mj_forward(model, data)
     print(f"SO-101 loaded: {model.nq} joints, {model.nu} actuators", flush=True)
 
-    duration = args.seconds if args.seconds is not None else (2.0 if args.headless else float("inf"))
+    duration = (
+        args.seconds
+        if args.seconds is not None
+        else (2.0 if args.headless else float("inf"))
+    )
     if args.headless:
         while data.time < duration:
             step(model, data, args.demo)

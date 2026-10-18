@@ -46,12 +46,25 @@ uv run python main.py --headless --demo --seconds 5 --snapshot outputs/so101.png
 取得したコミットは`assets/so101/SOURCE.md`を参照。
 関節・グリッパ指令はrad。LeRobotのグリッパ0–100表現との変換は未実装。
 
-## 型チェック
+## Lint・フォーマット・型チェック
 
 ```bash
 uv sync --locked
+uv run ruff check .
+uv run ruff format --check .
 uv run pyright
 ```
+
+自動修正とフォーマット:
+
+```bash
+uv run ruff check --fix .
+uv run ruff format .
+```
+
+RuffはPython 3.12・行幅88文字を基準とし、基本エラー・未使用import・
+import順序・バグを招きやすい書き方・Python構文の更新をチェックする。
+配布元のモデルを含む`assets`、取得用の`third_party`、生成物の`outputs`は対象外。
 
 開発依存の非公式`mujoco-stubs`でMuJoCo 3.16系の型情報を補完する。
 Pyrightは`pyproject.toml`の設定で`.venv`を参照する。
