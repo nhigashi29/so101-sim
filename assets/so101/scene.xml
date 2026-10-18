@@ -1,3 +1,4 @@
+<!-- Modified by so101-sim: use the wrist-camera robot model. See SOURCE.md. -->
 <mujoco model="scene">
     <include file="so101_new_calib_camera.xml" />
 
